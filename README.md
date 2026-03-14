@@ -1,48 +1,79 @@
 # ERP Management System (MERN Stack)
 
-A full-stack ERP application built with MongoDB, Express.js, React, and Node.js.
+A full-stack ERP web application built with MongoDB, Express.js, React, and Node.js, designed to manage core business operations in one platform.
 
-It supports core business workflows including:
+## Live Project
+
+- Frontend: https://erp-system-omega-brown.vercel.app/
+- Backend API: https://erp-backend-rkn4.onrender.com/
+- Source Code: https://github.com/Jaykumar-Kale/erp-system
+
+## Overview
+
+This project implements a practical ERP workflow with authentication, inventory tracking, order management, invoicing, and dashboard analytics.
+
+Core modules:
+- User authentication and role-based access
 - Product and inventory management
-- Supplier and customer management
-- Sales order processing
-- Invoice generation and tracking
-- Dashboard analytics
-- Role-based authentication
-
-## Project Structure
-
-```text
-erp-system/
-  backend/      # Node.js + Express API + MongoDB models
-  frontend/     # React web application
-```
+- Customer and supplier management
+- Sales order management
+- Invoice management
+- Dashboard KPIs and low-stock visibility
 
 ## Tech Stack
 
 - Frontend: React 18, React Router, Axios
 - Backend: Node.js, Express.js, Mongoose
-- Database: MongoDB
-- Auth/Security: JWT, bcrypt
+- Database: MongoDB Atlas
+- Security: JWT, bcrypt
 - Utilities: dotenv, morgan, express-validator
+
+## Architecture
+
+```text
+erp-system/
+   backend/    # REST API, business logic, database models
+   frontend/   # React application and UI modules
+```
 
 ## Key Features
 
-- JWT-based login and protected routes
-- Role-based user access (admin, manager, employee)
-- Inventory auto-adjust on sales orders
-- Sales order to invoice flow
-- Dashboard KPIs (orders, invoices, revenue, low stock)
-- Seed script for quick demo data setup
+- JWT-based login and protected API routes
+- Role-based access: admin, manager, employee
+- Inventory adjustments through sales workflow
+- Sales order to invoice lifecycle
+- Dashboard metrics for operations and finance
+- Seed script for demo and testing data
+
+## API Summary
+
+Base path:
+
+```text
+/api
+```
+
+Main routes:
+- `POST /api/auth/login`
+- `GET /api/products`
+- `GET /api/customers`
+- `GET /api/suppliers`
+- `GET /api/sales-orders`
+- `GET /api/invoices`
+- `GET /api/dashboard/stats`
 
 ## Local Setup
 
-### 1. Clone and install
+### 1. Clone repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Jaykumar-Kale/erp-system.git
 cd erp-system
+```
 
+### 2. Install dependencies
+
+```bash
 cd backend
 npm install
 
@@ -50,7 +81,7 @@ cd ../frontend
 npm install
 ```
 
-### 2. Configure environment variables
+### 3. Configure environment variables
 
 Backend:
 
@@ -59,11 +90,6 @@ cd backend
 copy .env.example .env
 ```
 
-Update `backend/.env` values:
-- `MONGODB_URI`
-- `JWT_SECRET`
-- `FRONTEND_URL`
-
 Frontend:
 
 ```bash
@@ -71,19 +97,28 @@ cd frontend
 copy .env.example .env
 ```
 
-### 3. Seed demo data (optional but recommended)
+Required backend variables:
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `JWT_EXPIRE`
+- `FRONTEND_URL`
+
+Required frontend variables:
+- `REACT_APP_API_URL`
+
+### 4. Seed demo data
 
 ```bash
 cd backend
 npm run seed
 ```
 
-Demo credentials:
+Demo accounts:
 - `admin@erp.com` / `Admin@123`
 - `manager@erp.com` / `Manager@123`
 - `employee@erp.com` / `Employee@123`
 
-### 4. Run app
+### 5. Start application
 
 Backend:
 
@@ -99,74 +134,67 @@ cd frontend
 npm start
 ```
 
-Frontend URL: `http://localhost:3000`
-Backend URL: `http://localhost:5000`
+Local URLs:
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:5000`
 
-## API Base Path
+## Deployment
 
-All backend APIs are served under:
-
-```text
-/api
-```
-
-Examples:
-- `POST /api/auth/login`
-- `GET /api/products`
-- `GET /api/sales-orders`
-- `GET /api/invoices`
-
-## Deployment Guide
-
-Recommended stack:
-- Backend: Render (Web Service)
-- Frontend: Vercel (React)
+Current deployment stack:
+- Backend: Render
+- Frontend: Vercel
 - Database: MongoDB Atlas
 
-### Deploy Backend (Render)
+### Backend (Render)
 
-1. Push code to GitHub.
-2. Create a Render Web Service from this repo.
-3. Set root directory to `backend`.
-4. Build command: `npm install`
-5. Start command: `npm start`
-6. Add env vars from `backend/.env.example`:
-   - `MONGODB_URI` (Atlas URI)
+- Root Directory: `backend`
+- Build Command: `npm install`
+- Start Command: `npm start`
+- Environment Variables:
+   - `MONGODB_URI`
    - `JWT_SECRET`
-   - `JWT_EXPIRE` (e.g., `7d`)
+   - `JWT_EXPIRE`
    - `NODE_ENV=production`
-   - `FRONTEND_URL=<your-vercel-domain>`
+   - `FRONTEND_URL=<vercel-domain>`
 
-### Deploy Frontend (Vercel)
+### Frontend (Vercel)
 
-1. Create a Vercel project from this repo.
-2. Set root directory to `frontend`.
-3. Add env var:
-   - `REACT_APP_API_URL=<your-render-backend-url>/api`
-4. Deploy.
+- Root Directory: `frontend`
+- Build Command: `npm run build`
+- Environment Variables:
+   - `REACT_APP_API_URL=<render-backend-url>/api`
 
-## Scripts
+## Available Scripts
 
-Backend scripts:
-- `npm start` - Run backend in production mode
-- `npm run dev` - Run backend in development mode
-- `npm run seed` - Seed sample ERP data
+Backend:
+- `npm start` - start API in production mode
+- `npm run dev` - start API in development mode
+- `npm run seed` - seed sample data
 
-Frontend scripts:
-- `npm start` - Run React app
-- `npm run build` - Production build
+Frontend:
+- `npm start` - run React app in development mode
+- `npm run build` - build production bundle
 
-## Submission Checklist
+## Project Status
 
-Before internship submission, ensure:
-- Project pushed to GitHub
-- `README.md` updated (this file)
-- Backend + frontend both run successfully
-- Seed data visible in UI
-- Repository is clean and organized
+- Deployed and accessible on cloud
+- Auth and CRUD flows verified
+- Atlas seeded with sample data
+- Submission document prepared in [SUBMISSION_TEMPLATE.md](SUBMISSION_TEMPLATE.md)
 
-I have also added a ready template at `SUBMISSION_TEMPLATE.md` you can copy into your internship submission.
+## Roadmap
+
+Planned future improvements:
+- Purchase order and GRN UI expansion
+- Better reporting and charting modules
+- Export features (PDF/CSV)
+- Automated tests for critical API flows
+- Improved audit trail and activity logs
+
+## Author
+
+Jaykumar Kailas Kale
 
 ## License
 
-This project is for educational and internship submission purposes.
+This project is created for educational and internship submission purposes.
