@@ -16,17 +16,19 @@ const UserForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) fetchUser();
-  }, [id]);
+    if (!id) return;
 
-  const fetchUser = async () => {
-    try {
-      const response = await api.get(`/users/${id}`);
-      setFormData(response.data.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+    const loadUser = async () => {
+      try {
+        const response = await api.get(`/users/${id}`);
+        setFormData(response.data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    loadUser();
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

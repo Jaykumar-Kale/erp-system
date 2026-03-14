@@ -26,12 +26,12 @@ const Invoices = () => {
     <div>
       <div className="flex-between mb-20">
         <h1 className="page-title">Invoices</h1>
-        <Link to="/invoices/new" className="btn btn-primary">Create Invoice</Link>
       </div>
 
       <div className="card">
+        <p className="mb-20">Invoices are generated automatically whenever a sales order is created.</p>
         {invoices.length === 0 ? (
-          <div className="empty-state"><h3>No invoices found</h3></div>
+          <div className="empty-state"><h3>No invoices found</h3><p>Create a sales order to generate the first invoice.</p></div>
         ) : (
           <table className="table">
             <thead>
@@ -43,6 +43,7 @@ const Invoices = () => {
                 <th>Due</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +60,9 @@ const Invoices = () => {
                     </span>
                   </td>
                   <td>{new Date(invoice.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <Link to={`/invoices/view/${invoice._id}`} className="btn btn-secondary">View</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

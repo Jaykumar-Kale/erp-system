@@ -1,4 +1,5 @@
 const SalesOrder = require('../models/SalesOrder');
+const Invoice = require('../models/Invoice');
 
 // @desc    Get all sales orders
 // @route   GET /api/sales-orders
@@ -82,6 +83,34 @@ exports.createSalesOrder = async (req, res) => {
       notes,
       createdBy: req.user._id
     });
+
+    const dueDate = deliveryDate
+      ? new Date(deliveryDate)
+      : new Date(Date.now() + (7 * 24 * 60 * 60 * 1000));
+
+    try {
+      await Invoice.create({
+        customer,
+        order: salesOrder._id,
+        items: items.map((item) => ({
+          product: item.product,
+          quantity: item.quantity,
+          price: item.price,
+          total: item.quantity * item.price
+        })),
+        subtotal,
+        tax: tax || 0,
+        discount: discount || 0,
+        total,
+        dueAmount: total,
+        dueDate,
+        paymentMethod,
+        notes,
+        createdBy: req.user._id
+      });
+    } catch (invoiceError) {
+      console.error('Failed to auto-generate invoice for sales order:', invoiceError.message);
+    }
     
     res.status(201).json({ success: true, data: salesOrder });
   } catch (error) {

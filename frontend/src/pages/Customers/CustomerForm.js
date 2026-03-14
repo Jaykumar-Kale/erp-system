@@ -18,19 +18,19 @@ const CustomerForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) {
-      fetchCustomer();
-    }
-  }, [id]);
+    if (!id) return;
 
-  const fetchCustomer = async () => {
-    try {
-      const response = await api.get(`/customers/${id}`);
-      setFormData(response.data.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+    const loadCustomer = async () => {
+      try {
+        const response = await api.get(`/customers/${id}`);
+        setFormData(response.data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    loadCustomer();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -8,27 +8,30 @@ const Products = () => {
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
-    fetchProducts();
-  }, [filter]);
+    const loadProducts = async () => {
+      try {
+        let url = '/products';
+        if (filter === 'lowStock') url += '?lowStock=true';
+        const response = await api.get(url);
+        setProducts(response.data.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchProducts = async () => {
-    try {
-      let url = '/products';
-      if (filter === 'lowStock') url += '?lowStock=true';
-      const response = await api.get(url);
-      setProducts(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setLoading(false);
-    }
-  };
+    loadProducts();
+  }, [filter]);
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await api.delete(`/products/${id}`);
-        fetchProducts();
+        let url = '/products';
+        if (filter === 'lowStock') url += '?lowStock=true';
+        const response = await api.get(url);
+        setProducts(response.data.data);
       } catch (error) {
         alert('Error deleting product');
       }

@@ -67,7 +67,6 @@ function AppRoutes() {
         
         <Route path="invoices">
           <Route index element={<Invoices />} />
-          <Route path="new" element={<InvoiceForm />} />
           <Route path="view/:id" element={<InvoiceForm />} />
         </Route>
         

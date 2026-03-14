@@ -65,7 +65,7 @@ const OrderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/orders', formData);
+      await api.post('/sales-orders', formData);
       navigate('/orders');
     } catch (error) {
       alert('Error creating order');
@@ -74,7 +74,7 @@ const OrderForm = () => {
 
   return (
     <div>
-      <h1 className="page-title">Create Order</h1>
+      <h1 className="page-title">Create Sales Order</h1>
 
       <div className="card">
         <form onSubmit={handleSubmit}>
@@ -189,7 +189,7 @@ const OrderForm = () => {
 
           <div className="flex flex-gap-10 mt-20">
             <button type="submit" className="btn btn-primary" disabled={formData.items.length === 0}>
-              Create Order
+              Create Sales Order
             </button>
             <button type="button" className="btn btn-secondary" onClick={() => navigate('/orders')}>
               Cancel

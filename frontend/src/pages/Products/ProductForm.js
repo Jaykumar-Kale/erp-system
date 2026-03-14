@@ -21,19 +21,19 @@ const ProductForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) {
-      fetchProduct();
-    }
-  }, [id]);
+    if (!id) return;
 
-  const fetchProduct = async () => {
-    try {
-      const response = await api.get(`/products/${id}`);
-      setFormData(response.data.data);
-    } catch (error) {
-      setError('Error loading product');
-    }
-  };
+    const loadProduct = async () => {
+      try {
+        const response = await api.get(`/products/${id}`);
+        setFormData(response.data.data);
+      } catch (error) {
+        setError('Error loading product');
+      }
+    };
+
+    loadProduct();
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({

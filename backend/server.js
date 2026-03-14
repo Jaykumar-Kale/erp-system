@@ -22,11 +22,24 @@ const dashboardRoutes = require('./routes/dashboard');
 // Initialize express app
 const app = express();
 
+const defaultAllowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+const envAllowedOrigins = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error('CORS policy: origin not allowed'));
+  },
   credentials: true
 }));
 app.use(morgan('dev'));

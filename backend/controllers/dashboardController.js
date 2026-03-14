@@ -124,7 +124,7 @@ exports.getSalesAnalytics = async (req, res) => {
     }
 
     // Sales by status
-    const salesByStatus = await Order.aggregate([
+    const salesByStatus = await SalesOrder.aggregate([
       { $match: dateFilter },
       {
         $group: {
@@ -136,22 +136,40 @@ exports.getSalesAnalytics = async (req, res) => {
     ]);
 
     // Top selling products
-    const topProducts = await Order.aggregate([
+    const topProducts = await SalesOrder.aggregate([
       { $match: dateFilter },
       { $unwind: '$items' },
       {
         $group: {
-          _id: '$items.productName',
+          _id: '$items.product',
           quantitySold: { $sum: '$items.quantity' },
-          revenue: { $sum: '$items.total' }
+          revenue: {
+            $sum: {
+              $multiply: ['$items.quantity', '$items.price']
+            }
+          }
         }
       },
       { $sort: { quantitySold: -1 } },
-      { $limit: 10 }
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'productInfo'
+        }
+      },
+      {
+        $unwind: {
+          path: '$productInfo',
+          preserveNullAndEmptyArrays: true
+        }
+      }
     ]);
 
     // Top customers
-    const topCustomers = await Order.aggregate([
+    const topCustomers = await SalesOrder.aggregate([
       { $match: dateFilter },
       {
         $group: {

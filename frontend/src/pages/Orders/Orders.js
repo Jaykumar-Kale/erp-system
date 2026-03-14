@@ -12,7 +12,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await api.get('/orders');
+      const response = await api.get('/sales-orders');
       setOrders(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -25,8 +25,8 @@ const Orders = () => {
   return (
     <div>
       <div className="flex-between mb-20">
-        <h1 className="page-title">Orders</h1>
-        <Link to="/orders/new" className="btn btn-primary">Create Order</Link>
+        <h1 className="page-title">Sales Orders</h1>
+        <Link to="/orders/new" className="btn btn-primary">Create Sales Order</Link>
       </div>
 
       <div className="card">

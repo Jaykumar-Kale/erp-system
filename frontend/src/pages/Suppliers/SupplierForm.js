@@ -18,17 +18,19 @@ const SupplierForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) fetchSupplier();
-  }, [id]);
+    if (!id) return;
 
-  const fetchSupplier = async () => {
-    try {
-      const response = await api.get(`/suppliers/${id}`);
-      setFormData(response.data.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+    const loadSupplier = async () => {
+      try {
+        const response = await api.get(`/suppliers/${id}`);
+        setFormData(response.data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    loadSupplier();
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
