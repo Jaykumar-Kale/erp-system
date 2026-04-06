@@ -50,7 +50,7 @@ pdf_content.txt
 extract_pdf.py
 
 # Learning materials folder (for local reference only, not for GitHub)
-_learning-materials/
+# _learning-materials/
 
 # PDF documents
 *.pdf
